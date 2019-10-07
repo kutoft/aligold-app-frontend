@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import './Item.css';
 import { Link, navigate } from "@reach/router";
-import Feathers from '../components/Feathers';
-import AppMain from '../components/AppMain';
-import AppFooter from '../components/AppFooter';
-import AppointmentFields from '../components/item/AppointmentFields';
-import NoteFields from '../components/item/NoteFields';
-import ReminderFields from '../components/item/ReminderFields';
-import TodoFields from '../components/item/TodoFields';
-import ContactFields from '../components/item/ContactFields';
-import LinkedMenu from '../components/item/linked/LinkedMenu';
-import LinkedModal from '../components/item/linked/LinkedModal';
-import { Variables } from '../constants/Variables';
+import Feathers from '../Feathers';
+import AppHeader from '../shared/AppHeader';
+import AppMain from '../shared/AppMain';
+import AppFooter from '../shared/AppFooter';
+import AppointmentFields from './AppointmentFields';
+import NoteFields from './NoteFields';
+import ReminderFields from './ReminderFields';
+import TodoFields from './TodoFields';
+import ContactFields from './ContactFields';
+import LinkedMenu from './linked/LinkedMenu';
+import LinkedModal from './linked/LinkedModal';
+import { Variables } from '../../constants/Variables';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
@@ -20,7 +20,14 @@ import { faThumbtack as faThumbtackSolid, faSave, faEllipsisV, faLongArrowLeft }
 import { faThumbtack as faThumbtackRegular } from '@fortawesome/pro-regular-svg-icons';
 
 const useStyles = makeStyles({
+  header: {
+    justifyContent: 'space-between',
+  },
   title: {
+    '& div': {
+      margin: '0',
+      borderRadius: '0',
+    },
     '& input': {
       padding: '21px 1rem 18px',
       fontWeight: 'bold',
@@ -104,7 +111,7 @@ export default function Item(props) {
   // console.log(user);
 
   function getItem() {
-    Feathers.service('items').get(props.itemId, props.auth.user)
+    Feathers.service('items').get(props.id, props.auth.user)
       .then(response => {
         setItem(response);
         setIsPinned(response.isPinned);
@@ -127,7 +134,7 @@ export default function Item(props) {
   };
 
   function updateItem() {
-    Feathers.service('items').update(props.itemId, item)
+    Feathers.service('items').update(props.id, item)
       .then(response => {
         setItem(response);
         console.log(response);
@@ -239,7 +246,7 @@ export default function Item(props) {
   useEffect(() => {
     let data = Object.assign({}, item);
     data.type = props.itemType;
-    data.collectionId = props.collectionId;
+    // data.collectionId = props.collectionId;
 
     setItem(data);
 
@@ -254,38 +261,40 @@ export default function Item(props) {
 
   return (
     <>
-      <AppMain type="item" className="item">
-        <div className="pageHeader">
-          <div className="flex-list-h">
-            <div onClick={() => handleBack()}>
-              <FontAwesomeIcon icon={faLongArrowLeft} />
-            </div>
-            <h6>{props.itemType.toUpperCase()}</h6>
+      <AppHeader className={classes.header} >
+        <div className="flex-list-h">
+          <div onClick={() => handleBack()}>
+            <FontAwesomeIcon icon={faLongArrowLeft} />
           </div>
-          <div className="flex-list-h">
-            <div
-              onClick={(e) => handleBool('isPinned')}
-            >
-              {isPinned && (
-                <FontAwesomeIcon icon={faThumbtackSolid} />
-              )}
-              {!isPinned && (
-                <FontAwesomeIcon icon={faThumbtackRegular} />
-              )}
-            </div>
-            <div
-              onClick={(e) => handleSubmit(e)}
-            >
-              <FontAwesomeIcon icon={faSave} />
-            </div>
-            <div
-              onClick={() => handleBool('isSubMenu')}
-            >
-              <FontAwesomeIcon icon={faEllipsisV} />
-            </div>
+          {
+            // <h6>{props.itemType.toUpperCase()}</h6>
+          }
+        </div>
+        <div className="flex-list-h">
+          <div
+            onClick={(e) => handleBool('isPinned')}
+          >
+            {isPinned && (
+              <FontAwesomeIcon icon={faThumbtackSolid} />
+            )}
+            {!isPinned && (
+              <FontAwesomeIcon icon={faThumbtackRegular} />
+            )}
+          </div>
+          <div
+            onClick={(e) => handleSubmit(e)}
+          >
+            <FontAwesomeIcon icon={faSave} />
+          </div>
+          <div
+            onClick={() => handleBool('isSubMenu')}
+          >
+            <FontAwesomeIcon icon={faEllipsisV} />
           </div>
         </div>
-        <div className="title">
+      </AppHeader>
+      <AppMain type="item" className="item">
+        <div className={classes.title}>
           <TextField
             id="title"
             name="title"
@@ -296,7 +305,6 @@ export default function Item(props) {
             margin="normal"
             variant="filled"
             inputProps={{ 'aria-label': 'title' }}
-            className={classes.title}
           />
         </div>
         <div className={classes.fields}>
@@ -321,7 +329,7 @@ export default function Item(props) {
         <LinkedMenu item={item} handleBool={handleBool} />
       </AppFooter>
       {isLinkedModalOpen && (
-        <LinkedModal collectionId={props.collectionId} isLinkedModalOpen={isLinkedModalOpen} handleBool={handleBool} handleLinkedChange={handleLinkedChange} updateItem={updateItem} linked={item.linked} _id={item._id} />
+        <LinkedModal isLinkedModalOpen={isLinkedModalOpen} handleBool={handleBool} handleLinkedChange={handleLinkedChange} updateItem={updateItem} linked={item.linked} _id={item._id} />
       )}
     </>
   )

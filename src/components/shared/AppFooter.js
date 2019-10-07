@@ -1,5 +1,5 @@
 import React from 'react';
-import { Variables } from '../constants/Variables';
+import { Variables } from '../../constants/Variables';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -8,8 +8,8 @@ const useStyles = makeStyles({
     display: 'flex',
     flex: '0 1 auto',
     width: '100%',
-    height: props.type === 'item' ? '65px' : '56px',
-    boxShadow: '1px 0px 3px 0px rgba(0,0,0,0.2), 1px 0px 1px 0px rgba(0,0,0,0.14), 2px 0px 1px -1px rgba(0,0,0,0.12)',
+    height: '50px',
+    boxShadow: '0px 1px 20px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12)',
     backgroundColor: Variables.colors.white,
     position: 'relative',
     zIndex: '1',
@@ -20,7 +20,7 @@ export default function AppFooter(props) {
   const classes = useStyles(props);
 
   return (
-    <footer className={classes.root}>
+    <footer className={`${classes.root} ${props.className}`}>
       {props.children}
     </footer>
   )

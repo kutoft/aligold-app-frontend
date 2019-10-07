@@ -1,14 +1,14 @@
 export const Variables = {
   colors: {
     primary: '#003653', // '#005582',
-    primaryLight: '#33779B',
+    primaryLight: '#b3e4ff',
     primaryDark: '#002235',
     secondary: '#61dafb',
     secondaryLight: '#9AE7FD',
     secondaryDark: '#4EAEC9',
     white: '#fff',
-    light: '#f5f5f5',
-    medium: '#464646',
+    light: '#f3f3f3',
+    medium: '#eaeaea',
     dark: '#222',
     black: '#111',
   },

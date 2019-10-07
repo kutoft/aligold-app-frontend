@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 });
 
 export default function AppointmentFields(props) {
-  let { date, location, repeat } = props.fields;
+  let { date, location, repeat, notes } = props.fields;
   const classes = useStyles();
 
   if(date === undefined) {
@@ -104,6 +104,19 @@ export default function AppointmentFields(props) {
         fullWidth
         margin="normal"
       />
+      <div>
+        <TextField
+          id="notes"
+          name="notes"
+          label="Notes"
+          value={notes}
+          onChange={(e) => props.handleFieldsChange(e)}
+          multiline
+          rows="4"
+          fullWidth
+          margin="normal"
+        />
+      </div>
       <div className="repeat">
         <FormControlLabel
           control={

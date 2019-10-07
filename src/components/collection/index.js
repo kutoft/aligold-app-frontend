@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "@reach/router";
-import Feathers from '../components/Feathers';
-import AppMain from '../components/AppMain';
+import Feathers from '../Feathers';
+import AppMain from '../shared/AppMain';
 import TextField from '@material-ui/core/TextField';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,13 +9,13 @@ import { faThumbtack as faThumbtackSolid, faSave, faLongArrowLeft } from '@forta
 import { faThumbtack as faThumbtackRegular } from '@fortawesome/pro-regular-svg-icons';
 
 
-export default function CollectionNewEdit(props) {
+export default function Collection(props) {
   const [error, setError] = useState(false);
   const [collection, setCollection] = useState({title: ''});
   const [isPinned, setIsPinned] = useState(false);
 
   function getCollection() {
-    Feathers.service('collections').get(props.collectionId)
+    Feathers.service('collections').get(props.id)
       .then(response => {
         setCollection(response);
         setIsPinned(response.isPinned);
@@ -38,7 +38,7 @@ export default function CollectionNewEdit(props) {
   };
 
   function updateCollection() {
-    Feathers.service('collections').update(props.collectionId, collection)
+    Feathers.service('collections').update(props.id, collection)
       .then(response => {
         setCollection(response);
         console.log(response);
@@ -94,7 +94,7 @@ export default function CollectionNewEdit(props) {
       <AppMain>
         <div className="pageHeader">
           <div className="flex-list-h">
-            <Link to={`/collections/${props.collectionId}`}>
+            <Link to={`/collections/${props.id}`}>
               <FontAwesomeIcon icon={faLongArrowLeft} />
             </Link>
             <h6>Collection</h6>

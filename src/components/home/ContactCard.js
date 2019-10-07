@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "@reach/router";
-import Paper from '../../components/Paper';
+import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -27,7 +27,7 @@ export default function ContactCard(props) {
 
   return (
     <li>
-      <Link to={`/collections/${props.item.collectionId}/${props.item.type}/${props.item._id}`}>
+      <Link to={`edit/${props.item._id}`} state={{ type: 'contact' }}>
       <Paper>
         {props.item.isPinned && (
           <p className="isPinned">

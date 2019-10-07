@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "@reach/router";
-import Paper from '../../components/Paper';
+import Paper from '@material-ui/core/Paper';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbtack as faThumbtackSolid } from '@fortawesome/pro-solid-svg-icons';
@@ -9,7 +9,7 @@ export default function AppointmentCard(props) {
 
   return (
     <li>
-      <Link to={`/collections/${props.item.collectionId}/${props.item.type}/${props.item._id}`}>
+      <Link to={`edit/${props.item._id}`} state={{ type: 'appointment' }}>
         <Paper>
           {props.item.isPinned && (
             <p className="isPinned">
