@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Variables } from '../../constants/Variables';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -47,8 +47,14 @@ const useStyles = makeStyles({
 
 export default function CollectionFilter(props) {
   const classes = useStyles();
-  const { collection, toggleCollection } = props;
+  const { collection, toggleCollection, index, collectionIndex } = props;
   const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    if(collectionIndex !== index) {
+      setIsActive(false);
+    }
+  }, [collectionIndex]);
 
   return (
     <div
@@ -56,7 +62,7 @@ export default function CollectionFilter(props) {
       className={`${classes.collection} ${isActive ? 'active' : ''}`}
       onClick={
         (id) => {
-          toggleCollection(collection._id);
+          toggleCollection(collection._id, index);
           setIsActive(!isActive);
         }
       }

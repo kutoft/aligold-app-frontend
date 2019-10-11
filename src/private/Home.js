@@ -48,10 +48,12 @@ export default function Collection(props) {
   const [collectionsError, setCollectionsError] = useState(false);
   const [subNav, setSubNav] = useState('stream');
   const [collectionId, setCollectionId] = useState('');
+  const [collectionIndex, setCollectionIndex] = useState();
   const [sort, setSort] = useState({ "isPinned": "-1", "meta.updatedDate": "-1" });
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState();
   const [query, setQuery] = useState({ type: { "$nin": ["contact"] }, $sort: sort});
+  const [prevQuery, setPrevQuery] = useState();
 
   const { auth } = props;
 
@@ -79,6 +81,7 @@ export default function Collection(props) {
     } else {
       setCollectionId(id);
     }
+    setCollectionIndex(index);
   }
 
   useEffect(() => {
@@ -88,6 +91,7 @@ export default function Collection(props) {
 
   useEffect(() => {
     let obj = {};
+
     if(collectionId !== '') {
       obj.collectionId = collectionId;
     }
@@ -97,8 +101,20 @@ export default function Collection(props) {
       obj.type = "contact";
     }
     obj.$sort = sort;
+
+    setPrevQuery(obj);
     setQuery(obj);
-  }, [collectionId, subNav, sort, searchQuery]);
+  }, [collectionId, subNav, sort]);
+
+  useEffect(() => {
+    let obj = {};
+    if(searchQuery === '') {
+      obj = prevQuery;
+    } else {
+      obj.$search = searchQuery;
+    }
+    setQuery(obj);
+  }, [searchQuery]);
 
   useEffect(() => {
     getItems();
@@ -129,14 +145,14 @@ export default function Collection(props) {
       {collections.data && (
         <div className={classes.collectionsOverflow}>
           <div className={classes.collections}>
-            {collections.data.map(collection => (
-              <CollectionFilter key={collection._id} collection={collection} toggleCollection={toggleCollection} />
+            {collections.data.map((collection, index) => (
+              <CollectionFilter key={collection._id} index={index} collection={collection} collectionIndex={collectionIndex} toggleCollection={toggleCollection} />
             ))}
           </div>
         </div>
       )}
       <Paper className={classes.body}>
-        <SubNav subNav={subNav} setSubNav={setSubNav} setSearchOpen={setSearchOpen} />
+        <SubNav subNav={subNav} setSubNav={setSubNav} searchOpen={searchOpen} setSearchOpen={setSearchOpen} setSearchQuery={setSearchQuery} />
         {items.data && (
           <ul className={`${classes.list} list`}>
             {items.data.map((item, index) => (

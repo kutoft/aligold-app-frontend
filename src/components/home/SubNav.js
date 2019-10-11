@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Variables } from '../../constants/Variables';
 import { makeStyles } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/pro-solid-svg-icons';
+import { faSearch, faTimesCircle } from '@fortawesome/pro-solid-svg-icons';
 
 const useStyles = makeStyles({
   subNav: {
@@ -43,6 +43,9 @@ const useStyles = makeStyles({
       '&:last-child': {
         paddingLeft: '35px',
       },
+      '&.hide': {
+        display: 'none',
+      },
     },
     '& .search': {
       display: 'flex',
@@ -60,22 +63,66 @@ const useStyles = makeStyles({
       backgroundColor: Variables.colors.white,
     },
   },
+  search: {
+    '& input': {
+      position: 'absolute',
+      top: '-100%',
+    },
+    '& .close': {
+      display: 'none',
+    },
+    '&.active': {
+      width: '100%',
+      position: 'relative',
+      '& input': {
+        display: 'block',
+        position: 'relative',
+        top: '0',
+        width: '100%',
+        height: '50px',
+        padding: '10px 20px',
+        border: `0px solid ${Variables.colors.medium}`,
+        borderBottomWidth: '2px',
+      },
+      '& .close': {
+        display: 'flex',
+        position: 'absolute',
+        top: '0',
+        right: '0',
+        width: '50px',
+        height: '50px',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      '& .search': {
+        display: 'none',
+      }
+    }
+  }
 });
 
 export default function SubNav(props) {
   const classes = useStyles();
+  const inputEl = useRef();
 
   return (
     <div className={classes.subNav}>
-      <div className={`navItem ${props.subNav === 'stream' ? 'active' : ''}`} onClick={(nav) => props.setSubNav('stream')}>
+      <div className={`navItem ${props.subNav === 'stream' ? 'active' : ''} ${props.searchOpen ? 'hide' : '' }`} onClick={(nav) => props.setSubNav('stream')}>
         Stream
       </div>
-      <div className="search" onClick={() => props.setSearchOpen} >
-        <FontAwesomeIcon icon={faSearch} />
+      <div className={`${classes.search} ${props.searchOpen ? 'active' : '' }`} >
+        <input ref={inputEl} id="el" type='text' onChange={(e) => props.setSearchQuery(e.target.value)} />
+        <div className="close" onClick={() => {props.setSearchOpen(!props.searchOpen); props.setSearchQuery(''); inputEl.current.value = '';}}>
+          <FontAwesomeIcon icon={faTimesCircle} />
+        </div>
+        <div className="search" onClick={() => {props.setSearchOpen(!props.searchOpen); inputEl.current.focus();}} >
+          <FontAwesomeIcon icon={faSearch} />
+        </div>
       </div>
-      <div className={`navItem ${props.subNav === 'contacts' ? 'active' : ''}`} onClick={(nav) => props.setSubNav('contacts')}>
+      <div className={`navItem ${props.subNav === 'contacts' ? 'active' : ''} ${props.searchOpen ? 'hide' : '' }`} onClick={(nav) => props.setSubNav('contacts')}>
         Contacts
       </div>
+
     </div>
   )
 }
