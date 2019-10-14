@@ -5,6 +5,8 @@ export default function Authenticate(props) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLogout, setIsLogout] = useState(false);
   const [data, setData] = useState();
+  const [error, setError] = useState();
+  const [errorMessage, setErrorMessage] = useState();
 
   if(isLogout === false) {
     Feathers.authentication.getAccessToken()
@@ -24,14 +26,40 @@ export default function Authenticate(props) {
 
   const login = (credentials) => {
     const payload = Object.assign({ strategy: 'local' }, credentials);
+    if(!credentials) {
+      Feathers.reAuthenticate(payload)
+        .then((response) => {
+          // If login is successful
+          setData(response);
+          setIsAuthenticated(true);
+        })
+        .catch((error) => {
+          setError(true);
+          setErrorMessage(error);
+        })
+    }
     Feathers.authenticate(payload)
       .then((response) => {
         // If login is successful
         setData(response);
         setIsAuthenticated(true);
       })
+      .catch((error) => {
+        setError(true);
+        setErrorMessage(error);
+      })
   } // make a login request
-  const register = () => {} // register the user
+  const register = (credentials) => {
+    Feathers.service('users').create(credentials)
+      .then((response) => {
+        // If login is successful
+        login(credentials)
+      })
+      .catch((error) => {
+        setError(true);
+        setErrorMessage(error.message);
+      })
+  } // register the user
   const logout = () => {
     setIsAuthenticated(false);
     setIsLogout(true);
@@ -39,6 +67,6 @@ export default function Authenticate(props) {
   } // clear the token in localStorage and the user data
 
   return (
-    React.cloneElement(props.children, {auth: {isAuthenticated, setIsAuthenticated, data, login, logout, register}})
+    React.cloneElement(props.children, {auth: {isAuthenticated, setIsAuthenticated, data, login, logout, register, error, errorMessage}})
   )
 };
