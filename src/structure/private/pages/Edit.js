@@ -1,6 +1,6 @@
 import React from 'react';
-import Collection from '../components/collection';
-import Item from '../components/item';
+import Collection from '../../../components/collection';
+import Item from '../../../components/item';
 
 export default function Edit(props) {
 

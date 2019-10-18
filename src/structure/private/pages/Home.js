@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "@reach/router";
-import Feathers from '../components/Feathers';
-import AppMain from '../components/shared/AppMain';
-import SubNav from '../components/home/SubNav';
-import DefaultCard from '../components/home/DefaultCard';
-import AppointmentCard from '../components/home/AppointmentCard';
-import NoteCard from '../components/home/NoteCard';
-import ContactCard from '../components/home/ContactCard';
-import CollectionFilter from '../components/home/CollectionFilter';
+import Feathers from '../../../context/Feathers';
+import AppMain from '../../../components/shared/AppMain';
+import SubNav from '../../../components/home/SubNav';
+import DefaultCard from '../../../components/home/DefaultCard';
+import AppointmentCard from '../../../components/home/AppointmentCard';
+import NoteCard from '../../../components/home/NoteCard';
+import ContactCard from '../../../components/home/ContactCard';
+import CollectionFilter from '../../../components/home/CollectionFilter';
 import Paper from '@material-ui/core/Paper';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faLongArrowLeft } from '@fortawesome/pro-solid-svg-icons';
 
-import { Variables } from '../constants/Variables';
+import { Variables } from '../../../constants/Variables';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({

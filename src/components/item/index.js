@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, navigate } from "@reach/router";
-import Feathers from '../Feathers';
+import Feathers from '../../context/Feathers';
 import AppHeader from '../shared/AppHeader';
 import AppMain from '../shared/AppMain';
 import AppFooter from '../shared/AppFooter';

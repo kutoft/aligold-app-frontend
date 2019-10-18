@@ -1,11 +1,11 @@
 import React from 'react';
-import '../App.css';
+import '../../App.css';
 import { Router } from "@reach/router";
-import DashboardWrapper from '../components/shared/DashboardWrapper';
-import Home from '../private/Home';
-import AddNew from '../private/AddNew';
-import Edit from '../private/Edit';
-import Account from '../private/Account';
+import DashboardWrapper from '../../components/shared/DashboardWrapper';
+import Home from './pages/Home';
+import AddNew from './pages/AddNew';
+import Edit from './pages/Edit';
+import Account from './pages/Account';
 
 export default function PrivateApp(props) {
 

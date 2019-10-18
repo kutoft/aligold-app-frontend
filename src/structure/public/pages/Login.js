@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from '@reach/router';
+import { useAuth } from '../../../context/AuthContext';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
-import logo from '../images/aligold-logo-icon.png';
-import { Variables } from '../constants/Variables';
+import logo from '../../../images/aligold-logo-icon.png';
+import { Variables } from '../../../constants/Variables';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -97,6 +98,8 @@ export default function Login(props) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [emailFormOpen, setEmailFormOpen] = useState();
+  const auth = useAuth();
+  const [accessToken, setAccessToken] = useState(props.location.hash.split('=')[1]);
 
   // Retrieve email/password object from the login/signup page
   const getCredentials = () => {
@@ -109,13 +112,18 @@ export default function Login(props) {
 
   function handleClick() {
     const user = getCredentials();
-    props.auth.login(user);
+    auth.login(user);
   }
+
+  useEffect(() => {
+    auth.login();
+  }, [accessToken]);
 
   return (
     <div className={classes.container}>
-
+      {/*
       <Link to="/signup" className={classes.link} >Sign Up</Link>
+      */}
 
       <div className={classes.header}>
         <Avatar className={classes.avatar}>
@@ -126,6 +134,7 @@ export default function Login(props) {
         </Typography>
       </div>
 
+      {/*
       <div className={`${classes.form}${emailFormOpen ? ' open' : ''}`}>
         <TextField
           variant="outlined"
@@ -177,16 +186,19 @@ export default function Login(props) {
           )}
         </div>
       </div>
+      */}
 
       <div className={`${classes.footer}${emailFormOpen ? ' open' : ''}`}>
         <a className={`${classes.button} secondary`} href={`${process.env.REACT_APP_BASE_URL}/oauth/google`}>Login with Google</a>
-        <button
+        {/*
+          <button
           type="submit"
           className={`${classes.button} primary ${classes.submit}`}
           onClick={() => setEmailFormOpen(!emailFormOpen)}
         >
           Login with Email
         </button>
+        */}
       </div>
     </div>
   );

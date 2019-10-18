@@ -1,13 +1,15 @@
 import React from 'react';
-import AppMain from '../components/shared/AppMain';
-import AppFooter from '../components/shared/AppFooter';
-import NavigationBottom from '../components/shared/NavigationBottom';
+import { useAuth } from '../../../context/AuthContext';
+import AppMain from '../../../components/shared/AppMain';
+import AppFooter from '../../../components/shared/AppFooter';
+import NavigationBottom from '../../../components/shared/NavigationBottom';
 import Button from '@material-ui/core/Button';
 
 export default function Account(props) {
+  const auth = useAuth();
 
   function handleLogout() {
-    props.auth.logout();
+    auth.logout();
   };
 
   return (
