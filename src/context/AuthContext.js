@@ -47,10 +47,11 @@ function AuthProvider(props) {
       })
   } // register the user
   const logout = () => {
+    setIsAuthenticated(false);
     Feathers.logout()
       .then(() => {
         setData({});
-        setIsAuthenticated(false);
+        
       })
       .catch()
   } // clear the token in localStorage and the user data

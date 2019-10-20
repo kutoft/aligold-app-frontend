@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../App.css';
-import { Router, navigate } from "@reach/router";
+import { Router } from "@reach/router";
 import { useAuth } from '../../context/AuthContext';
 import Login from './pages/Login';
 

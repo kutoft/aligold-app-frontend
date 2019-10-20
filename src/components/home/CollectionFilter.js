@@ -1,49 +1,39 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from '@reach/router';
 import { Variables } from '../../constants/Variables';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   collection: {
-    margin: '15px 10px 15px 0px',
-    padding: '7px 15px 7px 10px',
-    border: `1px solid ${Variables.colors.white}`,
+    margin: '7px 10px 1rem 0px',
+    padding: '3px 3px 3px 10px',
+    border: `2px solid ${theme.palette.primary.main}`,
     borderRadius: '20px',
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
     whiteSpace: 'nowrap',
+    display: 'flex',
+    justifyContent: 'space-between',
     '& .radio': {
-      width: '15px',
-      height: '15px',
-      backgroundColor: Variables.colors.white,
-      marginRight: '7px',
-      borderRadius: '50%',
+      width: '20px',
+      height: '20px',
+      backgroundColor: theme.palette.common.white,
+      marginLeft: '7px',
+      borderRadius: '0 20px 20px 0',
       position: 'relative',
     },
     '& .label': {
-      textTransform: 'uppercase',
       lineHeight: '1',
-      fontSize: Variables.fontSize.small,
+      fontSize: '0.67rem',
+      fontWeight: 'bold',
     },
     '&.active': {
-      borderColor: Variables.colors.primary,
-      '& .radio': {
-        backgroundColor: Variables.colors.primary,
-        '&:after': {
-          content: '""',
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '7px',
-          height: '7px',
-          borderRadius: '50%',
-          backgroundColor: Variables.colors.white,
-        }
-      }
+      borderColor: theme.palette.primary.main,
+      backgroundColor: theme.palette.primary.main,
     },
   },
-});
+}));
 
 export default function CollectionFilter(props) {
   const classes = useStyles();
@@ -60,15 +50,19 @@ export default function CollectionFilter(props) {
     <div
       key={collection._id}
       className={`${classes.collection} ${isActive ? 'active' : ''}`}
-      onClick={
+    >
+      <span className="label" onClick={
         (id) => {
           toggleCollection(collection._id, index);
           setIsActive(!isActive);
         }
-      }
-    >
-      <span className="radio"></span>
-      <span className="label">{collection.title}</span>
+      }>{collection.title}</span>
+      <Link
+        to={`/edit/${collection._id}`}
+        state={{ type: 'collection' }}
+        className="radio"
+      >
+      </Link>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from './context/AuthContext';
-import { UserProvider } from './context/UserContext';
+import { UserProvider, useUser } from './context/UserContext';
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
 const PrivateApp = React.lazy(() => import('./structure/private/PrivateApp'));
 const PublicApp = React.lazy(() => import('./structure/public/PublicApp'));

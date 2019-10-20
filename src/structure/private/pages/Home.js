@@ -8,6 +8,7 @@ import AppointmentCard from '../../../components/home/AppointmentCard';
 import NoteCard from '../../../components/home/NoteCard';
 import ContactCard from '../../../components/home/ContactCard';
 import CollectionFilter from '../../../components/home/CollectionFilter';
+import CollectionFilterAdd from '../../../components/home/CollectionFilterAdd';
 import Paper from '@material-ui/core/Paper';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,18 +17,23 @@ import { faEdit, faLongArrowLeft } from '@fortawesome/pro-solid-svg-icons';
 import { Variables } from '../../../constants/Variables';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
   },
   collectionsOverflow: {
     width: '100vw',
-    minHeight: '61px',
+    minHeight: '53px',
     overflowY: 'auto',
   },
   collections: {
+    color: theme.palette.common.white,
     display: 'flex',
     alignItems: 'center',
     padding: '0 10px',
+  },
+  collectionsTitle: {
+    color: theme.palette.common.white,
+    margin: '1rem 10px 0',
   },
   body: {
     borderRadius: '30px 30px 0 0',
@@ -38,7 +44,7 @@ const useStyles = makeStyles({
     margin: '0',
     padding: '1rem',
   },
-});
+}));
 
 export default function Collection(props) {
   const classes = useStyles();
@@ -143,13 +149,17 @@ export default function Collection(props) {
   return (
     <AppMain>
       {collections.data && (
-        <div className={classes.collectionsOverflow}>
-          <div className={classes.collections}>
-            {collections.data.map((collection, index) => (
-              <CollectionFilter key={collection._id} index={index} collection={collection} collectionIndex={collectionIndex} toggleCollection={toggleCollection} />
-            ))}
+        <>
+          <h6 className={classes.collectionsTitle}>Collection Filter</h6>
+          <div className={classes.collectionsOverflow}>
+            <div className={classes.collections}>
+              {collections.data.map((collection, index) => (
+                <CollectionFilter key={collection._id} index={index} collection={collection} collectionIndex={collectionIndex} toggleCollection={toggleCollection} />
+              ))}
+              <CollectionFilterAdd />
+            </div>
           </div>
-        </div>
+        </>
       )}
       <Paper className={classes.body}>
         <SubNav subNav={subNav} setSubNav={setSubNav} searchOpen={searchOpen} setSearchOpen={setSearchOpen} setSearchQuery={setSearchQuery} />

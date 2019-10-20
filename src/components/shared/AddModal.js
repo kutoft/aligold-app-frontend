@@ -5,13 +5,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faLayerGroup, faCalendarPlus, faFilePlus, faAlarmPlus, faClipboardListCheck, faUserPlus } from '@fortawesome/pro-solid-svg-icons';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     width: '0',
     height: '0',
     overflow: 'hidden',
-    backgroundColor: Variables.colors.white,
-    backgroundImage: `linear-gradient(140deg, ${Variables.colors.light} 30%, ${Variables.colors.white} 70%, ${Variables.colors.medium} 100%)`,
+    backgroundColor: theme.palette.secondary.main,
+    backgroundImage: `linear-gradient(140deg, ${theme.palette.secondary.dark} 15%, ${theme.palette.secondary.main} 50%, ${theme.palette.secondary.dark} 100%)`,
     '& .add': {
       display: 'flex',
       alignItems: 'center',
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
       height: '75px',
       border: `2px solid ${Variables.colors.medium}`,
       borderRadius: '50%',
-      backgroundColor: Variables.colors.white,
+      backgroundColor: theme.palette.common.white,
     },
     '&.active': {
       position: 'fixed',
@@ -56,12 +56,11 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: '0.75rem',
-    color: Variables.colors.dark,
     width: '100%',
     padding: '15px 25px',
     marginBottom: '1rem',
-    color: Variables.colors.white,
-    backgroundColor: Variables.colors.primary,
+    color: theme.palette.common.white,
+    backgroundColor: theme.palette.primary.main,
     borderRadius: '50px',
     '&.mb0': {
       marginBottom: '0',
@@ -74,7 +73,7 @@ const useStyles = makeStyles({
     margin: '3rem 0',
     width: '100%',
   }
-});
+}));
 
 export default function AddModal(props) {
   const classes = useStyles();

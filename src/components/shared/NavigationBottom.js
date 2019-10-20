@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAddressBook, faUserCircle, faTasksAlt, faLayerGroup, faPlus } from '@fortawesome/pro-solid-svg-icons';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     width: '100%',
@@ -56,11 +56,12 @@ const useStyles = makeStyles({
     transform: 'translate(-50%, -50%)',
     width: '75px',
     height: '75px',
-    border: `2px solid ${Variables.colors.medium}`,
+    border: `2px solid ${Variables.colors.light}`,
     borderRadius: '50%',
-    backgroundColor: Variables.colors.white,
+    color: theme.palette.common.white,
+    backgroundColor: theme.palette.primary.main,
   },
-});
+}));
 
 export default function NavigationButtom(props) {
   const classes = useStyles();
