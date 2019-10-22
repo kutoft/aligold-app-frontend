@@ -7,7 +7,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbtack as faThumbtackSolid, faUserCircle } from '@fortawesome/pro-solid-svg-icons';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
+  link: {
+    color: theme.palette.secondary.dark,
+  },
   list: {
     display: 'flex',
     alignItems: 'center',
@@ -24,14 +27,14 @@ const useStyles = makeStyles({
     lineHeight: '0',
   },
 
-});
+}));
 
 export default function ContactCard(props) {
   const classes = useStyles();
 
   return (
     <Card>
-      <Link to={`edit/${props.item._id}`} state={{ type: 'contact' }}>
+      <Link to={`/edit/${props.item._id}`} state={{ type: 'contact' }} className={classes.link}>
       <Paper>
         {props.item.isPinned && (
           <p className="isPinned">

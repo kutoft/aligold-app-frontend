@@ -12,6 +12,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     overflow: 'auto',
     color: 'inherit',
+    background: 'linear-gradient(0deg, rgba(235,235,235,1) 0%, rgba(235,235,235,0) 100%)',
   },
   link: {
     flex: '1 0 0',
@@ -51,7 +52,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     position: 'absolute',
     zIndex: '1',
-    top: '50%',
+    top: '0', //50%
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: '75px',
@@ -68,17 +69,17 @@ export default function NavigationButtom(props) {
 
   return (
     <div className={classes.root}>
-      <Link className={classes.link} to="/" onClick={() => props.setMainNav('home')}>
+      {/*<Link className={classes.link} to="/" onClick={() => props.setMainNav('home')}>
         <FontAwesomeIcon icon={faLayerGroup} className={classes.icon} />
         <span className={classes.label}>Home</span>
-      </Link>
+      </Link>*/}
       <div className={classes.add} onClick={() => props.setAddModal(!props.addModal)} >
         <FontAwesomeIcon icon={faPlus} />
       </div>
-      <Link className={classes.link} to="/account" onClick={() => props.setMainNav('account')}>
+      {/*<Link className={classes.link} to="/account" onClick={() => props.setMainNav('account')}>
         <FontAwesomeIcon icon={faUserCircle} className={classes.icon} />
         <span className={classes.label}>Account</span>
-      </Link>
+      </Link>*/}
     </div>
   );
 }

@@ -90,15 +90,15 @@ export default function AddModal(props) {
           <FontAwesomeIcon icon={faCalendarPlus} className={classes.icon} />
           <span className={classes.label}>Event</span>
         </Link>
+        <Link className={classes.link} to="/new" state={{ type: 'reminder' }} onClick={() => props.setAddModal(!props.addModal)}>
+          <FontAwesomeIcon icon={faAlarmPlus} className={classes.icon} />
+          <span className={classes.label}>Reminder</span>
+        </Link>
         <Link className={classes.link} to="/new" state={{ type: 'note' }} onClick={() => props.setAddModal(!props.addModal)} >
           <FontAwesomeIcon icon={faFilePlus} className={classes.icon} />
           <span className={classes.label}>Note</span>
         </Link>
         {/*
-        <Link className={classes.link} to="reminder/new">
-          <FontAwesomeIcon icon={faAlarmPlus} className={classes.icon} />
-          <span className={classes.label}>Reminder</span>
-        </Link>
         <Link className={classes.link} to="todo/new">
           <FontAwesomeIcon icon={faClipboardListCheck} className={classes.icon} />
           <span className={classes.label}>ToDo</span>

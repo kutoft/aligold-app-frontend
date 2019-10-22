@@ -8,7 +8,7 @@ const useStyles = makeStyles({
   date: {
     display: 'flex',
     flexWrap: 'wrap',
-    margin: '0 -0.25rem',
+    margin: '0 -0.5rem',
   },
   dateTextField: {
     width: '50%',
@@ -103,6 +103,7 @@ export default function AppointmentFields(props) {
         onChange={(e) => props.handleFieldsChange(e)}
         fullWidth
         margin="normal"
+        variant="outlined"
       />
       <div>
         <TextField
@@ -115,9 +116,10 @@ export default function AppointmentFields(props) {
           rows="4"
           fullWidth
           margin="normal"
+          variant="outlined"
         />
       </div>
-      <div className="repeat">
+      {/*<div className="repeat">
         <FormControlLabel
           control={
             <Checkbox checked={repeat.isActive} name="isActive" value="isActive" onChange={(e) => props.handleFieldsChange(e, 'repeat')} />
@@ -152,7 +154,7 @@ export default function AppointmentFields(props) {
             </div>
           </>
         )}
-      </div>
+      </div>*/}
     </>
   )
 }

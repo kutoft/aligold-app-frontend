@@ -4,12 +4,25 @@ import 'react-quill/dist/quill.snow.css';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
+  root: {
+    margin: '30px 10px 15px',
+    border: '1px solid rgba(0, 0, 0, 0.23)',
+    borderRadius: '4px',
+  },
   quill: {
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
     '& .ql-container': {
       flexGrow: '1',
+      border: 'none !important',
+    },
+    '& .ql-editor': {
+      minHeight: '200px',
+    },
+    '& .ql-toolbar': {
+      border: 'none !important',
+      borderBottom: '1px solid rgba(0, 0, 0, 0.23) !important',
     }
   }
 });
@@ -21,25 +34,13 @@ export default function NoteFields(props) {
     props.fields.body = 'test';
   }
 
-  console.log(props.fields.body);
-
-  // useEffect(() => {
-  //   let initialState;
-  //   console.log(body);
-  //   //let content = convertFromRaw(body);
-  //   //initialState = EditorState.createWithContent(content);
-  //   //setEditorState(initialState);
-  // }, [body]);
-
-  // useEffect(() => {
-  //   handleBody();
-  // }, [editorState]);
-
   return (
-    <ReactQuill
-      className={classes.quill}
-      value={props.fields.body}
-      onChange={(value) => props.handleEditorChange(value)}
-    />
+    <div className={classes.root}>
+      <ReactQuill
+        className={classes.quill}
+        value={props.fields.body}
+        onChange={(value) => props.handleEditorChange(value)}
+      />
+    </div>
   );
 }

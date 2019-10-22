@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: theme.palette.secondary.main,
+    background: `linear-gradient(140deg, ${theme.palette.secondary.dark} 15%, ${theme.palette.secondary.main} 50%, ${theme.palette.secondary.dark} 100%)`,
     width: '100vw',
     height: '100vh',
     overflow: 'hidden',

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from '@reach/router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisV } from '@fortawesome/pro-solid-svg-icons';
 import { Variables } from '../../constants/Variables';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -18,6 +20,7 @@ const useStyles = makeStyles(theme => ({
     '& .radio': {
       width: '20px',
       height: '20px',
+      color: theme.palette.secondary.main,
       backgroundColor: theme.palette.common.white,
       marginLeft: '7px',
       borderRadius: '0 20px 20px 0',
@@ -32,6 +35,12 @@ const useStyles = makeStyles(theme => ({
       borderColor: theme.palette.primary.main,
       backgroundColor: theme.palette.primary.main,
     },
+  },
+  icon: {
+    position: 'relative',
+    left: '7px',
+    top: '4px',
+    fontSize: '0.75rem',
   },
 }));
 
@@ -62,6 +71,7 @@ export default function CollectionFilter(props) {
         state={{ type: 'collection' }}
         className="radio"
       >
+        <FontAwesomeIcon icon={faEllipsisV} className={classes.icon} />
       </Link>
     </div>
   )

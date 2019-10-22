@@ -24,11 +24,11 @@ export default function PrivateApp(props) {
     <MuiThemeProvider theme={privateTheme} >
       <Router>
         <DashboardWrapper path="/">
-          <Home path="/" default auth={props.auth} />
-          <Account path="account" exact auth={props.auth} />
+          <Home path="/" default />
+          <Account path="account" exact />
         </DashboardWrapper>
-        <AddNew path="new" auth={props.auth} />
-        <Edit path="edit/:id" auth={props.auth} />
+        <AddNew path="new" />
+        <Edit path="edit/:id" />
       </Router>
     </MuiThemeProvider>
   );

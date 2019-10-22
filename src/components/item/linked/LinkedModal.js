@@ -91,7 +91,7 @@ export default function LinkedModal(props) {
             items.data.map(item => {
                 let isChecked = checked.filter(check => (check._id === item._id)).length ? true : false;
 
-                if(item._id === _id || item.type === 'contact') {
+                if(item._id === _id) {
                   return null
                 };
 

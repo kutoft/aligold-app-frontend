@@ -6,11 +6,11 @@ export default function AddNew(props) {
 
   if(props.location.state.type === 'collection') {
     return (
-      <Collection isNew={true} auth={props.auth} />
+      <Collection isNew={true} />
     )
   } else {
     return (
-      <Item itemType={props.location.state.type} isNew={true} auth={props.auth} />
+      <Item itemType={props.location.state.type} isNew={true} />
     )
   }
 }
