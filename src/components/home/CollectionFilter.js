@@ -18,8 +18,8 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     '& .radio': {
-      width: '20px',
-      height: '20px',
+      width: '30px',
+      height: '30px',
       color: theme.palette.secondary.main,
       backgroundColor: theme.palette.common.white,
       marginLeft: '7px',
@@ -30,6 +30,7 @@ const useStyles = makeStyles(theme => ({
       lineHeight: '1',
       fontSize: '0.67rem',
       fontWeight: 'bold',
+      padding: '0 5px',
     },
     '&.active': {
       borderColor: theme.palette.primary.main,
@@ -38,8 +39,8 @@ const useStyles = makeStyles(theme => ({
   },
   icon: {
     position: 'relative',
-    left: '7px',
-    top: '4px',
+    left: '11px',
+    top: '5px',
     fontSize: '0.75rem',
   },
 }));
@@ -50,7 +51,7 @@ export default function CollectionFilter(props) {
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
-    if(collectionIndex !== index) {
+    if (collectionIndex !== index) {
       setIsActive(false);
     }
   }, [collectionIndex]);
@@ -60,12 +61,15 @@ export default function CollectionFilter(props) {
       key={collection._id}
       className={`${classes.collection} ${isActive ? 'active' : ''}`}
     >
-      <span className="label" onClick={
-        (id) => {
+      <span
+        className="label"
+        onClick={id => {
           toggleCollection(collection._id, index);
           setIsActive(!isActive);
-        }
-      }>{collection.title}</span>
+        }}
+      >
+        {collection.title}
+      </span>
       <Link
         to={`/edit/${collection._id}`}
         state={{ type: 'collection' }}
@@ -74,5 +78,5 @@ export default function CollectionFilter(props) {
         <FontAwesomeIcon icon={faEllipsisV} className={classes.icon} />
       </Link>
     </div>
-  )
+  );
 }

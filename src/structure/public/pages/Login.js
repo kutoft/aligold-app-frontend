@@ -6,8 +6,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-
-import logo from '../../../images/aligold-logo-icon.png';
+import { Icon } from '../../../images/Icon';
 import { Variables } from '../../../constants/Variables';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -24,6 +23,8 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     height: '100vh',
     padding: '6rem 2rem 2rem',
+    backgroundColor: theme.palette.secondary.main,
+    backgroundImage: `linear-gradient(140deg, ${theme.palette.secondary.dark} 15%, ${theme.palette.secondary.main} 50%, ${theme.palette.secondary.dark} 100%)`,
   },
   link: {
     position: 'absolute',
@@ -35,9 +36,22 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     textAlign: 'center',
   },
-  avatar: {
-    margin: `${theme.spacing(1)}px auto`,
-    backgroundColor: theme.palette.secondary.main,
+  logo: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  img: {
+    width: '50px',
+  },
+  name: {
+    color: theme.palette.common.white,
+    fontSize: '1.25rem',
+    fontWeight: 'normal',
+    marginTop: '5px',
+    '& .bold': {
+      fontWeight: 'bold',
+    },
   },
   form: {
     display: 'none',
@@ -45,7 +59,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1),
     '&.open': {
       display: 'block',
-    }
+    },
   },
   formSubLinks: {
     display: 'flex',
@@ -57,19 +71,20 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     '&.open': {
       display: 'none',
-    }
+    },
   },
   button: {
     display: 'block',
-    backgroundColor: Variables.colors.primary,
-    color: Variables.colors.white,
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.secondary.dark,
     padding: '6px 16px',
     fontSize: '0.875rem',
     textAlign: 'center',
     minWidth: '64px',
     width: '100%',
     boxSizing: 'border-box',
-    transition: 'background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+    transition:
+      'background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
     fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
     fontWeight: '500',
     lineHeight: '1.75',
@@ -77,19 +92,16 @@ const useStyles = makeStyles(theme => ({
     letterSpacing: '0.02857em',
     textTransform: 'uppercase',
     border: '2px solid transparent',
-    borderBottomColor: Variables.colors.primaryDark,
+    borderBottomColor: theme.palette.primary.main,
     borderRadius: '50px',
     '&:hover': {
-      backgroundColor: Variables.colors.primaryDark,
-      borderBottomColor: Variables.colors.primaryLight,
-    }
+      backgroundColor: theme.palette.primary.main,
+      borderBottomColor: theme.palette.common.white,
+    },
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  img: {
-    width: '90%',
-  }
 }));
 
 export default function Login(props) {
@@ -99,13 +111,15 @@ export default function Login(props) {
   const [password, setPassword] = useState();
   const [emailFormOpen, setEmailFormOpen] = useState();
   const auth = useAuth();
-  const [accessToken, setAccessToken] = useState(props.location.hash.split('=')[1]);
+  const [accessToken, setAccessToken] = useState(
+    props.location.hash.split('=')[1]
+  );
 
   // Retrieve email/password object from the login/signup page
   const getCredentials = () => {
     const user = {
       email: email,
-      password: password
+      password: password,
     };
     return user;
   };
@@ -126,12 +140,16 @@ export default function Login(props) {
       */}
 
       <div className={classes.header}>
-        <Avatar className={classes.avatar}>
-          <img src={logo} alt="AliGold" className={classes.img} />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          AliGold Care
-        </Typography>
+        <div className={classes.logo}>
+          <div className={classes.img}>
+            <Icon color="white" />
+          </div>
+          <div>
+            <h4 className={classes.name}>
+              BRAIN<span className="bold">BASIN</span>
+            </h4>
+          </div>
+        </div>
       </div>
 
       {/*
@@ -189,7 +207,12 @@ export default function Login(props) {
       */}
 
       <div className={`${classes.footer}${emailFormOpen ? ' open' : ''}`}>
-        <a className={`${classes.button} secondary`} href={`${process.env.REACT_APP_BASE_URL}/oauth/google`}>Login with Google</a>
+        <a
+          className={`${classes.button} white`}
+          href={`${process.env.REACT_APP_BASE_URL}/oauth/google`}
+        >
+          Login with Google
+        </a>
         {/*
           <button
           type="submit"

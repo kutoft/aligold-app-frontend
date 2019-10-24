@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
-  })
+  }),
 });
 
 export default function AppMain(props) {
@@ -23,5 +23,5 @@ export default function AppMain(props) {
     <main className={`${classes.root} ${props.className}`}>
       {props.children}
     </main>
-  )
+  );
 }

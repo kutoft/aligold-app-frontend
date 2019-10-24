@@ -8,11 +8,13 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
   collection: {
     margin: '7px 10px 1rem 0px',
-    padding: '7px 10px',
+    padding: '7px 14px',
+    width: '40px',
+    height: '40px',
     border: `2px solid ${theme.palette.common.white}`,
     color: theme.palette.secondary.main,
     backgroundColor: theme.palette.common.white,
-    borderRadius: '20px',
+    borderRadius: '30px',
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
@@ -30,12 +32,13 @@ export default function CollectionFilterAdd(props) {
 
   return (
     <Link
-      to="/new" state={{ type: 'collection' }}
+      to="/new"
+      state={{ type: 'collection' }}
       className={classes.collection}
     >
       <span className="label">
         <FontAwesomeIcon icon={faPlus} />
       </span>
     </Link>
-  )
+  );
 }
