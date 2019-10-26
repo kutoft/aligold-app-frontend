@@ -21,21 +21,19 @@ const useStyles = makeStyles(theme => ({
 
 export default function ItemTitle(props) {
   const classes = useStyles(props);
-  const { item, itemType, handleChange } = props;
+  const { item, type, handleChange } = props;
 
   return (
     <>
       <h6 className={classes.title}>
-        {itemType} {itemType === 'contact' ? 'Name' : 'Title'}
+        {type} {type === 'contact' ? 'Name' : 'Title'}
       </h6>
       <input
         id="title"
         className={classes.titleInput}
         type="text"
         name="title"
-        placeholder={
-          itemType === 'contact' ? `${itemType} Nickname` : `${itemType} Title`
-        }
+        placeholder={type === 'contact' ? `${type} Nickname` : `${type} Title`}
         value={item.title}
         onChange={e => handleChange(e)}
       />

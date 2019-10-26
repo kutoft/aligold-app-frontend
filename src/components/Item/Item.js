@@ -56,16 +56,16 @@ const useStyles = makeStyles(theme => ({
     },
   },
   fields: props => ({
-    display: `${props.itemType === 'note' ? 'flex' : 'block'}`,
-    flexGrow: `${props.itemType === 'note' ? '1' : 'inherit'}`,
-    padding: `${props.itemType === 'note' ? '0rem' : '1rem'}`,
+    display: `${props.type === 'note' ? 'flex' : 'block'}`,
+    flexGrow: `${props.type === 'note' ? '1' : 'inherit'}`,
+    padding: `${props.type === 'note' ? '0rem' : '1rem'}`,
   }),
 }));
 
 export default function Item(props) {
-  const { itemType, isNew, id } = props;
+  const { type, isNew, id } = props;
   let fields = {};
-  if (itemType === 'appointment') {
+  if (type === 'appointment') {
     fields = {
       date: {
         startDate: '',
@@ -83,11 +83,11 @@ export default function Item(props) {
         endDate: '',
       },
     };
-  } else if (itemType === 'note') {
+  } else if (type === 'note') {
     fields = {
       body: '',
     };
-  } else if (itemType === 'todo') {
+  } else if (type === 'todo') {
     fields = {
       todos: [
         {
@@ -98,7 +98,7 @@ export default function Item(props) {
       moveCheckedToBottom: false,
       hideChecked: false,
     };
-  } else if (itemType === 'reminder') {
+  } else if (type === 'reminder') {
     fields = {
       date: {
         startDate: '',
@@ -106,7 +106,7 @@ export default function Item(props) {
       },
       notes: '',
     };
-  } else if (itemType === 'contact') {
+  } else if (type === 'contact') {
     fields = {
       isPrimary: false,
       firstName: '',
@@ -275,7 +275,7 @@ export default function Item(props) {
 
   useEffect(() => {
     let data = Object.assign({}, item);
-    data.type = itemType;
+    data.type = type;
     // data.collectionId = props.collectionId;
 
     setItem(data);
@@ -319,15 +319,11 @@ export default function Item(props) {
         </div>
       </AppHeader>
       <AppMain type="item" className="item">
-        <ItemTitle
-          item={item}
-          itemType={itemType}
-          handleChange={handleChange}
-        />
+        <ItemTitle item={item} type={type} handleChange={handleChange} />
         <PaperBody>
           <div className={classes.fields}>
             <Fields
-              type={itemType}
+              type={type}
               item={item}
               handleFieldsChange={handleFieldsChange}
               handleEditorChange={handleEditorChange}

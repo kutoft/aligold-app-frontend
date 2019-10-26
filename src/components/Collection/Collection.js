@@ -7,6 +7,10 @@ import AppMain from '../shared/AppMain';
 import ItemTitle from '../Item/ItemTitle';
 import PaperBody from '../PaperBody/';
 import TextField from '@material-ui/core/TextField';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faThumbtack as faThumbtackSolid,
@@ -50,7 +54,9 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
-  fields: {},
+  fields: {
+    margin: '30px 10px 15px',
+  },
 }));
 
 export default function Collection(props) {
@@ -61,7 +67,11 @@ export default function Collection(props) {
     primaryContact: {},
     meta: { collaborators: [] },
   });
+  const [contacts, setContacts] = useState([]);
+  const [selectValue, setSelectValue] = useState(collection.primaryContact._id);
   const [isPinned, setIsPinned] = useState(false);
+  const [labelWidth, setLabelWidth] = useState(0);
+  const inputLabel = React.useRef(null);
 
   function getCollection() {
     Feathers.service('collections')
@@ -98,6 +108,17 @@ export default function Collection(props) {
       .catch(error => setError(error));
   }
 
+  function getContacts() {
+    Feathers.service('items')
+      .find({ query: { type: 'contact', $sort: { title: -1 } } })
+      .then(response => {
+        console.log(response);
+        setContacts(response.data);
+        console.log(response);
+      })
+      .catch(error => setError(error));
+  }
+
   function handleSubmit(e) {
     if (props.isNew === true) {
       createCollection();
@@ -108,9 +129,19 @@ export default function Collection(props) {
   }
 
   function handleChange(e) {
-    const value =
+    let value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    const name = e.target.name;
+    let name = e.target.name;
+
+    setSelectValue(value);
+
+    if (name === 'primaryContact') {
+      contacts.map(contact => {
+        if (contact._id === value) {
+          value = contact;
+        }
+      });
+    }
 
     setCollection({
       ...collection,
@@ -146,6 +177,18 @@ export default function Collection(props) {
       getCollection();
     }
   }, []);
+
+  useEffect(() => {
+    getContacts();
+  }, []);
+
+  useEffect(() => {
+    setLabelWidth(inputLabel.current.offsetWidth);
+  }, []);
+
+  useEffect(() => {
+    setSelectValue(collection.primaryContact._id);
+  }, [collection]);
 
   return (
     <div className={classes.root}>
@@ -183,7 +226,36 @@ export default function Collection(props) {
           handleChange={handleChange}
         />
         <PaperBody>
-          <div className={classes.fields}></div>
+          <div className={classes.fields}>
+            <FormControl
+              variant="outlined"
+              className={classes.formControl}
+              fullWidth
+            >
+              <InputLabel ref={inputLabel} htmlFor="primaryContact">
+                Primary Contact
+              </InputLabel>
+              <Select
+                value={selectValue}
+                onChange={e => handleChange(e)}
+                labelWidth={labelWidth}
+                inputProps={{
+                  name: 'primaryContact',
+                  id: 'primaryContact',
+                }}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {contacts &&
+                  contacts.map(contact => (
+                    <MenuItem key={contact._id} value={contact._id}>
+                      {contact.title}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+          </div>
         </PaperBody>
       </AppMain>
     </div>
