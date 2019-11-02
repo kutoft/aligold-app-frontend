@@ -221,6 +221,20 @@ export default function Item(props) {
     });
   }
 
+  function handleFieldsArrayChange(object, arrayName) {
+    let fields = item.fields;
+    if (fields === undefined) {
+      fields = {};
+    }
+
+    fields[arrayName].push(object);
+
+    setItem({
+      ...item,
+      fields,
+    });
+  }
+
   function handleEditorChange(content) {
     const fields = item.fields;
     fields.body = content;
@@ -245,6 +259,13 @@ export default function Item(props) {
     setItem({
       ...item,
       linked: array,
+    });
+  }
+
+  function handleCollectionChange(id) {
+    setItem({
+      ...item,
+      collectionId: id
     });
   }
 
@@ -326,6 +347,7 @@ export default function Item(props) {
               type={type}
               item={item}
               handleFieldsChange={handleFieldsChange}
+              handleFieldsArrayChange={handleFieldsArrayChange}
               handleEditorChange={handleEditorChange}
             />
           </div>
@@ -333,6 +355,7 @@ export default function Item(props) {
             <LinkedMenu
               item={item}
               handleLinkedChange={handleLinkedChange}
+              handleCollectionChange={handleCollectionChange}
               updateItem={updateItem}
             />
           </div>

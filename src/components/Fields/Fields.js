@@ -12,7 +12,7 @@ const useStyles = makeStyles({
 });
 
 export default function Fields(props) {
-  const { item, type, handleFieldsChange, handleEditorChange } = props;
+  const { item, type, handleFieldsChange, handleFieldsArrayChange, handleEditorChange } = props;
   const classes = useStyles();
 
   return (
@@ -45,7 +45,7 @@ export default function Fields(props) {
       {type === 'contact' && (
         <ContactFields
           fields={item.fields}
-          handleFieldsChange={handleFieldsChange}
+          handleFieldsArrayChange={handleFieldsArrayChange}
         />
       )}
     </>

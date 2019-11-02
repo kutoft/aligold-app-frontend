@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function CollectionFilter(props) {
   const classes = useStyles();
-  const { collection, toggleCollection, index, collectionIndex } = props;
+  const { collection, toggleCollection, index, collectionIndex, collectionId } = props;
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
@@ -55,6 +55,12 @@ export default function CollectionFilter(props) {
       setIsActive(false);
     }
   }, [collectionIndex]);
+
+  useEffect(() => {
+    if(collectionId === collection._id) {
+      setIsActive(true);
+    }
+  }, [collectionId]);
 
   return (
     <div

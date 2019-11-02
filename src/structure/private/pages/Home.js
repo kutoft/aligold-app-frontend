@@ -7,6 +7,10 @@ import CollectionFilter from '../../../components/home/CollectionFilter';
 import CollectionFilterAdd from '../../../components/home/CollectionFilterAdd';
 import PaperBody from '../../../components/PaperBody/';
 import Cards from '../../../components/Cards/';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faLongArrowLeft } from '@fortawesome/pro-solid-svg-icons';
@@ -30,6 +34,34 @@ const useStyles = makeStyles(theme => ({
   collectionsTitle: {
     color: theme.palette.common.white,
     margin: '1rem 10px 0',
+  },
+  formControl: {
+    margin: '7px 5px 1rem',
+    padding: '3px 3px 3px 15px',
+    border: `2px solid ${theme.palette.primary.main}`,
+    borderRadius: '20px',
+    display: 'flex',
+    alignItems: 'center',
+    cursor: 'pointer',
+    whiteSpace: 'nowrap',
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '50%',
+    '& > div': {
+      color: theme.palette.common.white,
+      height: '30px',
+      fontSize: '0.67rem',
+      fontWeight: 'bold',
+      width: '100%',
+    },
+    '& svg': {
+      color: theme.palette.secondary.dark,
+      backgroundColor: theme.palette.common.white,
+      borderRadius: '0 20px 20px 0',
+      height: '30px',
+      width: '30px',
+      top: 'calc(50% - 15px)',
+    }
   },
   body: {
     borderRadius: '30px 30px 0 0',
@@ -55,6 +87,7 @@ export default function Collection(props) {
   const [collectionsError, setCollectionsError] = useState(false);
   const [subNav, setSubNav] = useState('stream');
   const [collectionId, setCollectionId] = useState('');
+  const [itemType, setItemType] = useState('');
   const [collectionIndex, setCollectionIndex] = useState();
   const [sort, setSort] = useState({
     isPinned: '-1',
@@ -99,6 +132,14 @@ export default function Collection(props) {
     setCollectionIndex(index);
   }
 
+  function handleCollectionSelect(e) {
+    setCollectionId(e.target.value);
+  }
+
+  function handleItemTypeSelect(e) {
+    setItemType(e.target.value);
+  }
+
   useEffect(() => {
     getCollections();
     getItems();
@@ -137,7 +178,7 @@ export default function Collection(props) {
 
   return (
     <AppMain>
-      {collections.data && (
+      {collections.data && !searchOpen && (
         <>
           <h6 className={classes.collectionsTitle}>Collection Filter</h6>
           <div className={classes.collectionsOverflow}>
@@ -147,11 +188,52 @@ export default function Collection(props) {
                   key={collection._id}
                   index={index}
                   collection={collection}
+                  collectionId={collectionId}
                   collectionIndex={collectionIndex}
                   toggleCollection={toggleCollection}
                 />
               ))}
               <CollectionFilterAdd />
+            </div>
+          </div>
+        </>
+      )}
+      {searchOpen && (
+        <>
+          <h6 className={classes.collectionsTitle}>Search Filter</h6>
+          <div className={classes.collectionsOverflow}>
+            <div className={classes.collections}>
+              <FormControl className={classes.formControl}>
+                <Select
+                  displayEmpty
+                  id="collection_filter_select"
+                  value={collectionId}
+                  onChange={(e) => handleCollectionSelect(e)}
+                >
+                  <MenuItem value="">
+                    <em>No Collection</em>
+                  </MenuItem>
+                  {collections.data.map((collection, index) => (
+                    <MenuItem key={collection._id} value={collection._id} >{collection.title}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl className={classes.formControl}>
+                <Select
+                  displayEmpty
+                  id="item_type_filter_select"
+                  value={itemType}
+                  onChange={(e) => handleItemTypeSelect(e)}
+                >
+                  <MenuItem value="">
+                    <em>No Item Type</em>
+                  </MenuItem>
+                  <MenuItem value="appointment" >Appointment</MenuItem>
+                  <MenuItem value="reminder" >Reminder</MenuItem>
+                  <MenuItem value="note" >Note</MenuItem>
+                  <MenuItem value="contact" >Contact</MenuItem>
+                </Select>
+              </FormControl>
             </div>
           </div>
         </>

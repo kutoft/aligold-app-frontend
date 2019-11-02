@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link } from '@reach/router';
 import Cards from '../Cards/';
 import Button from '@material-ui/core/Button';
-import LinkedModal from './LinkedModal';
+import LinkedItemModal from './LinkedItemModal';
+import LinkedCollectionModal from './LinkedCollectionModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare } from '@fortawesome/pro-solid-svg-icons';
 import { Variables } from '../../constants/Variables';
@@ -87,8 +88,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function LinkedMenu(props) {
   const classes = useStyles();
-  let { item, handleLinkedChange, updateItem } = props;
-  const [isLinkedModalOpen, setIsLinkedModalOpen] = useState(false);
+  let { item, handleLinkedChange, handleCollectionChange, updateItem } = props;
+  const [isLinkedItemModalOpen, setIsLinkedItemModalOpen] = useState(false);
+  const [isLinkedCollectionModalOpen, setIsLinkedCollectionModalOpen] = useState(false);
 
   return (
     <>
@@ -99,18 +101,18 @@ export default function LinkedMenu(props) {
             fullWidth
             color="primary"
             className={classes.addButton}
-            onClick={() => setIsLinkedModalOpen('isLinkedModalOpen')}
+            onClick={() => setIsLinkedCollectionModalOpen('isLinkedCollectionModalOpen')}
           >
-            Add Collection
+            Link Collection
           </Button>
           <Button
             variant="contained"
             fullWidth
             color="primary"
             className={classes.addButton}
-            onClick={() => setIsLinkedModalOpen('isLinkedModalOpen')}
+            onClick={() => setIsLinkedItemModalOpen('isLinkedItemModalOpen')}
           >
-            Add Link
+            Link Item
           </Button>
         </div>
         <ul className={classes.list}>
@@ -118,14 +120,24 @@ export default function LinkedMenu(props) {
             item.linked.map(link => <Cards key={link._id} item={link} />)}
         </ul>
       </div>
-      {isLinkedModalOpen && (
-        <LinkedModal
-          isLinkedModalOpen={isLinkedModalOpen}
-          setIsLinkedModalOpen={setIsLinkedModalOpen}
+      {isLinkedItemModalOpen && (
+        <LinkedItemModal
+          isLinkedItemModalOpen={isLinkedItemModalOpen}
+          setIsLinkedItemModalOpen={setIsLinkedItemModalOpen}
           handleLinkedChange={handleLinkedChange}
           updateItem={updateItem}
           linked={item.linked}
           _id={item._id}
+        />
+      )}
+      {isLinkedCollectionModalOpen && (
+        <LinkedCollectionModal
+          isLinkedCollectionModalOpen={isLinkedCollectionModalOpen}
+          setIsLinkedCollectionModalOpen={setIsLinkedCollectionModalOpen}
+          handleCollectionChange={handleCollectionChange}
+          collectionId={item.collectionId}
+          updateItem={updateItem}
+          linked={item.linked}
         />
       )}
     </>

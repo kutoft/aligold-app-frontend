@@ -22,9 +22,11 @@ const useStyles = makeStyles(theme => ({
       transform: 'translate(-50%, 0)',
       width: '75px',
       height: '75px',
-      border: `2px solid ${Variables.colors.medium}`,
+      border: `2px solid ${theme.palette.primary.main}`,
       borderRadius: '50%',
+      color: theme.palette.secondary.dark,
       backgroundColor: theme.palette.common.white,
+      boxShadow: '0px 5px 5px -3px rgba(255,255,255,0.2), 0px 8px 10px 1px rgba(255,255,255,0.14), 0px 3px 14px 2px rgba(255,255,255,0.12)',
     },
     '&.active': {
       position: 'fixed',

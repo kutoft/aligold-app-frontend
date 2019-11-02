@@ -5,28 +5,25 @@ import { faThumbtack as faThumbtackSolid } from '@fortawesome/pro-solid-svg-icon
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  link: {
-    display: 'block',
-    color: theme.palette.secondary.dark,
-  },
 }));
 
 export default function ReminderCard(props) {
   const classes = useStyles();
+  const { item } = props;
 
   return (
     <Link
-      to={`/edit/${props.item._id}`}
+      to={`/edit/${item._id}`}
       state={{ type: 'note' }}
-      className={classes.link}
+      className="link"
     >
-      {props.item.isPinned && (
+      {item.isPinned && (
         <p className="isPinned">
           <FontAwesomeIcon icon={faThumbtackSolid} />
         </p>
       )}
-      <p>{props.item.type.toUpperCase()}</p>
-      <h3>{props.item.title}</h3>
+      <p className="type">{item.type}</p>
+      <h3>{item.title}</h3>
     </Link>
   );
 }

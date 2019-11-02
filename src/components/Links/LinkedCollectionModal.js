@@ -8,7 +8,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
-import Checkbox from '@material-ui/core/Checkbox';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
 import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -31,41 +32,30 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function LinkedModal(props) {
+export default function LinkedCollectionModal(props) {
   const classes = useStyles();
-  const [error, setError] = useState(false);
-  const [items, setItems] = useState([]);
-  const [query, setQuery] = useState({
-    collectionId: props.collectionId,
-    $sort: { 'meta.updatedDate': '-1' },
-  });
-  const [checked, setChecked] = useState([]);
-  let {
-    isLinkedModalOpen,
-    handleBool,
-    handleLinkedChange,
+  const {
+    isLinkedCollectionModalOpen,
+    setIsLinkedCollectionModalOpen,
+    handleCollectionChange,
+    collectionId,
     updateItem,
     linked,
     _id,
   } = props;
 
-  const handleToggle = item => () => {
-    const hasId = checked.filter(check => check._id === item._id);
-    let newChecked = [...checked];
+  const [error, setError] = useState(false);
+  const [collections, setItems] = useState([]);
+  const [checked, setChecked] = useState(collectionId);
 
-    if (hasId.length === 0) {
-      newChecked.push(item);
-    } else {
-      newChecked = checked.filter(check => check._id !== item._id);
-    }
-
-    setChecked(newChecked);
-    handleLinkedChange(newChecked);
+  const handleChange = (id) => {
+    setChecked(id);
+    handleCollectionChange(id);
   };
 
-  function getItems() {
-    Feathers.service('items')
-      .find({ query: query })
+  function getCollections() {
+    Feathers.service('collections')
+      .find()
       .then(response => {
         setItems(response);
         console.log(response);
@@ -75,7 +65,7 @@ export default function LinkedModal(props) {
   }
 
   useEffect(() => {
-    getItems();
+    getCollections();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (error) {
@@ -84,17 +74,17 @@ export default function LinkedModal(props) {
     return (
       <Dialog
         fullScreen
-        open={isLinkedModalOpen}
-        onClose={() => handleBool('isLinkedModalOpen')}
+        open={isLinkedCollectionModalOpen}
+        onClose={() => setIsLinkedCollectionModalOpen(false)}
         TransitionComponent={Transition}
       >
         <AppBar className={classes.appBar}>
           <Toolbar>
-            {/*TODO: on close dont save state. reset back to initially loaded linked items*/}
+            {/*TODO: on close dont save state. reset back to initially loaded linked collections*/}
             <IconButton
               edge="start"
               color="inherit"
-              onClick={() => handleBool('isLinkedModalOpen')}
+              onClick={() => setIsLinkedCollectionModalOpen(false)}
               aria-label="close"
             >
               <CloseIcon />
@@ -105,7 +95,7 @@ export default function LinkedModal(props) {
             <Button
               color="inherit"
               onClick={() => {
-                handleBool('isLinkedModalOpen');
+                setIsLinkedCollectionModalOpen(false);
                 updateItem();
               }}
             >
@@ -114,39 +104,35 @@ export default function LinkedModal(props) {
           </Toolbar>
         </AppBar>
         <List>
-          {items.total > 0 &&
-            items.data.map(item => {
-              let isChecked = checked.filter(check => check._id === item._id)
-                .length
-                ? true
-                : false;
-
-              if (item._id === _id) {
-                return null;
-              }
+          <RadioGroup defaultValue="" aria-label="collections" name="collections-radios">
+          {collections.total > 0 &&
+            collections.data.map(collection => {
+              let isChecked = collectionId === collection._id ? true : false;
 
               return (
-                <React.Fragment key={item._id}>
-                  <ListItem button onClick={handleToggle(item)}>
+                <React.Fragment key={collection._id}>
+                  <ListItem button onClick={(id) => handleChange(collection._id)}>
                     <ListItemIcon>
-                      <Checkbox
+                      <Radio
                         edge="start"
+                        name="collections"
                         checked={isChecked}
                         tabIndex={-1}
                         disableRipple
-                        inputProps={{ 'aria-labelledby': item.title }}
+                        inputProps={{ 'aria-labelledby': collection.title }}
                       />
                     </ListItemIcon>
                     <ListItemText
-                      id={item.title}
-                      primary={item.title}
-                      secondary={item.type}
+                      id={collection.title}
+                      primary={collection.title}
+                      secondary={collection.type}
                     />
                   </ListItem>
                   <Divider />
                 </React.Fragment>
               );
             })}
+          </RadioGroup>
         </List>
       </Dialog>
     );

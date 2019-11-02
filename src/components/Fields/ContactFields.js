@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -59,6 +59,18 @@ const useStyles = makeStyles(theme => ({
 
 export default function ContactFields(props) {
   const classes = useStyles();
+  const {
+    isPrimary,
+    firstName,
+    middleName,
+    lastName,
+    occupation,
+    salutation,
+    emails,
+    phones,
+    addresses,
+  } = props.fields;
+
   const [email, setEmail] = useState({
     isPrimary: false,
     type: '',
@@ -79,17 +91,85 @@ export default function ContactFields(props) {
     zip: '',
     country: '',
   });
-  let {
-    isPrimary,
-    firstName,
-    middleName,
-    lastName,
-    occupation,
-    salutation,
-    emails,
-    phones,
-    addresses,
-  } = props.fields;
+
+  const [emailsState, setEmailsState] = useState(emails ? emails : [{...email}]);
+  const [phonesState, setPhonesState] = useState(phones ? phones : [{...phone}]);
+  const [addressesState, setAddressesState] = useState(addresses ? addresses : [{...address}]);
+
+
+  function handleChange(e, type) {
+    const value = e.target.value;
+    const name = e.target.name;
+    let obj = {};
+    obj[name] = value;
+
+    if(type === 'email') {
+      setEmail(obj);
+    }
+    if(type === 'phone') {
+      setPhone(obj);
+    }
+    if(type === 'address') {
+      setAddress(obj);
+    }
+  }
+
+  useEffect(() => {
+    let currentEmails = emailsState;
+    let newEmails = [];
+
+    currentEmails.map((existingEmail, index) => {
+      if(existingEmail.email === email.email) {
+        newEmails[index] = email;
+      } else {
+        newEmails[index] = existingEmail;
+      }
+    });
+
+    setEmailsState(newEmails);
+  }, [email]);
+
+  useEffect(() => {
+    props.handleFieldsArrayChange(emailsState, 'emails')
+  }, [emailsState]);
+
+  useEffect(() => {
+    let currentPhones = phonesState;
+    let newPhones = [];
+
+    currentPhones.map((existingPhone, index) => {
+      if(existingPhone.number === phone.number) {
+        newPhones[index] = phone;
+      } else {
+        newPhones[index] = existingPhone;
+      }
+    });
+
+    setPhonesState(newPhones);
+  }, [phones]);
+
+  useEffect(() => {
+    props.handleFieldsArrayChange(phonesState, 'phones')
+  }, [phonesState]);
+
+  useEffect(() => {
+    let currentAddresses = addressesState;
+    let newAddresses = [];
+
+    currentAddresses.map((existingAddress, index) => {
+      if(existingAddress.line1 === address.line1) {
+        newAddresses[index] = address;
+      } else {
+        newAddresses[index] = existingAddress;
+      }
+    });
+
+    setAddressesState(newAddresses);
+  }, [address]);
+
+  useEffect(() => {
+    props.handleFieldsArrayChange(addressesState, 'addresses')
+  }, [addressesState]);
 
   return (
     <>
@@ -100,10 +180,10 @@ export default function ContactFields(props) {
         <div className={classes.fields}>
           <TextField
             id="email_email"
-            name="email_email"
+            name="email"
             label="Email"
             value={email.email}
-            onChange={e => props.handleFieldsChange(e, 'email')}
+            onChange={(e, type) => handleChange(e, 'email')}
             fullWidth
             margin="dense"
             variant="outlined"
@@ -117,10 +197,10 @@ export default function ContactFields(props) {
         <div className={classes.fields}>
           <TextField
             id="phone_number"
-            name="phone_number"
+            name="number"
             label="Phone"
             value={phone.number}
-            onChange={e => props.handleFieldsChange(e, 'phone')}
+            onChange={e => props.handleFieldsArrayChange(e, 'phones')}
             fullWidth
             margin="dense"
             variant="outlined"
@@ -134,20 +214,20 @@ export default function ContactFields(props) {
         <div className={classes.fields}>
           <TextField
             id="address_line1"
-            name="address_line1"
+            name="line1"
             label="Address Line 1"
             value={address.line1}
-            onChange={e => props.handleFieldsChange(e, 'address')}
+            onChange={e => props.handleFieldsArrayChange(e, 'addresses')}
             fullWidth
             margin="dense"
             variant="outlined"
           />
           <TextField
             id="address_line2"
-            name="address_line2"
+            name="line2"
             label="Address Line 2"
             value={address.line2}
-            onChange={e => props.handleFieldsChange(e, 'address')}
+            onChange={e => props.handleFieldsArrayChange(e, 'addresses')}
             margin="dense"
             fullWidth
             variant="outlined"
@@ -155,40 +235,40 @@ export default function ContactFields(props) {
           <div className={`${classes.flex} ${classes.marginNegative}`}>
             <TextField
               id="address_zip"
-              name="address_zip"
+              name="zip"
               label="Zip"
               value={address.zip}
-              onChange={e => props.handleFieldsChange(e, 'address')}
+              onChange={e => props.handleFieldsArrayChange(e, 'addresses')}
               margin="dense"
               variant="outlined"
               className={classes.width_half}
             />
             <TextField
               id="address_city"
-              name="address_city"
+              name="city"
               label="City"
               value={address.city}
-              onChange={e => props.handleFieldsChange(e, 'address')}
+              onChange={e => props.handleFieldsArrayChange(e, 'addresses')}
               margin="dense"
               variant="outlined"
               className={classes.width_half}
             />
             <TextField
               id="address_state"
-              name="address_state"
+              name="state"
               label="State"
               value={address.state}
-              onChange={e => props.handleFieldsChange(e, 'address')}
+              onChange={e => props.handleFieldsArrayChange(e, 'addresses')}
               margin="dense"
               variant="outlined"
               className={classes.width_half}
             />
             <TextField
               id="address_country"
-              name="address_country"
+              name="country"
               label="Country"
               value={address.country}
-              onChange={e => props.handleFieldsChange(e, 'address')}
+              onChange={e => props.handleFieldsArrayChange(e, 'addresses')}
               margin="dense"
               variant="outlined"
               className={classes.width_half}
